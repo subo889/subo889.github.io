@@ -3,52 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Subo889 商城 - 带后台管理</title>
+<title>Subo889 商城</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,sans-serif}
 body{background:#f4f6f8}
-.header{background:#ff3052;color:#fff;padding:14px 20px;text-align:center;position:sticky;top:0;z-index:10}
-.search{background:#fff;padding:10px;text-align:center}
-.search input{width:92%;padding:10px 14px;border-radius:30px;border:1px solid #eee;background:#f7f7f7;outline:none}
-.banner{height:110px;background:linear-gradient(90deg,#ff4a6a,#ff6b4a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px}
-.tabs{display:flex;background:#fff;box-shadow:0 1px 3px #00000010}
-.tabs button{flex:1;padding:12px;border:none;background:none;color:#666}
+.header{background:#ff3052;color:#fff;padding:14px 20px;text-align:center}
+.banner{height:110px;background:linear-gradient(90deg,#ff4a6a,#ff6b4a);color:#fff;display:flex;align-items:center;justify-content:center}
+.tabs{display:flex;background:#fff}
+.tabs button{flex:1;padding:12px;border:none;background:none}
 .tabs .active{color:#ff3052;font-weight:bold}
 .page{display:none}
 .show{display:block}
 .goods{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:10px}
-.good{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 6px #00000007}
+.good{background:#fff;border-radius:12px;overflow:hidden}
 .good-img{height:140px;background:#eee}
 .good-info{padding:10px}
-.good-name{font-size:14px;margin-bottom:6px}
+.good-name{font-size:14px}
 .good-price{color:#ff3052;font-weight:bold}
 .good-btn{background:#ff3052;color:#fff;border:none;width:100%;padding:7px;border-radius:6px;margin-top:8px}
 .cart{padding:15px;background:#fff;margin:10px;border-radius:12px}
 .cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f2f2f2}
 .quantity{display:flex;align-items:center;gap:6px}
 .quantity button{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px}
-.total{text-align:right;padding:10px;color:#ff3052;font-size:17px}
+.total{text-align:right;padding:10px;color:#ff3052}
 .pay{background:#ff3052;color:#fff;border:none;width:100%;padding:12px;border-radius:8px;margin-top:10px}
 .order{padding:15px;background:#fff;margin:10px;border-radius:12px}
-.order-item{padding:10px;border-bottom:1px solid #f2f2f2}
-.admin{padding:20px;background:#fff;margin:10px;border-radius:12px}
-.admin input{width:100%;padding:10px;margin:6px 0;border:1px solid #eee;border-radius:6px}
-.admin button{background:#ff3052;color:#fff;border:none;padding:10px;width:100%;border-radius:6px;margin-top:6px}
-.admin-panel{padding:15px;background:#fff;margin:10px;border-radius:12px}
-.admin-item{padding:8px;border-bottom:1px solid #f2f2f2}
+
+/* 客服悬浮 */
+.service-float{position:fixed;right:15px;bottom:15px;z-index:999}
+.service-btn{width:50px;height:50px;border-radius:50%;background:#ff3052;color:#fff;border:none}
+.chat-box{width:320px;height:400px;background:#fff;position:fixed;right:15px;bottom:75px;display:none;flex-direction:column}
+.chat-head{background:#ff3052;color:#fff;padding:10px}
+.chat-content{flex:1;padding:10px;overflow-y:auto;background:#f9f9f9}
+.msg-user{text-align:right;margin:8px 0}
+.msg-admin{text-align:left;margin:8px 0}
+.msg-content{display:inline-block;padding:6px 10px;border-radius:6px;max-width:70%}
+.msg-user .msg-content{background:#ff3052;color:#fff}
+.msg-admin .msg-content{background:#e5e5e5}
+.chat-input{display:flex;padding:8px}
+.chat-input input{flex:1;padding:8px}
+.chat-input button{margin-left:6px;background:#ff3052;color:#fff;border:none;padding:8px 12px}
 </style>
 </head>
 <body>
 
-<div class="header">Subo889 永久商城（带后台）</div>
-<div class="search"><input placeholder="搜索商品"></div>
-<div class="banner">永久免费 · 自带管理后台</div>
+<div class="header">Subo889 商城</div>
+<div class="banner">欢迎光临</div>
 
 <div class="tabs">
     <button onclick="goto('shop')" class="active">商城</button>
     <button onclick="goto('cart')">购物车</button>
     <button onclick="goto('order')">订单</button>
-    <button onclick="goto('admin')">后台管理</button>
 </div>
 
 <!-- 商城 -->
@@ -77,33 +82,26 @@ body{background:#f4f6f8}
     </div>
 </div>
 
-<!-- 后台管理 -->
-<div id="admin" class="page">
-    <div class="admin">
-        <h3>后台管理中心</h3>
-        <input id="gname" placeholder="商品名称">
-        <input id="gprice" placeholder="商品价格">
-        <button onclick="addGood()">添加商品</button>
-    </div>
-    <div class="admin-panel">
-        <h4>商品管理</h4>
-        <div id="adminGoods"></div>
-    </div>
-    <div class="admin-panel">
-        <h4>订单管理</h4>
-        <div id="adminOrders"></div>
+<!-- 客服 -->
+<div class="service-float">
+    <button class="service-btn" onclick="toggleChat()">客服</button>
+</div>
+<div class="chat-box" id="chatBox">
+    <div class="chat-head">客服中心 <span onclick="toggleChat()" style="float:right">×</span></div>
+    <div class="chat-content" id="chatContent"></div>
+    <div class="chat-input">
+        <input id="userMsg" placeholder="输入消息">
+        <button onclick="userSend()">发送</button>
     </div>
 </div>
 
 <script>
 let goods = JSON.parse(localStorage.getItem('goods')) || [
-    {name:'纯棉T恤',price:59},
-    {name:'休闲长裤',price:89},
-    {name:'运动鞋',price:169},
-    {name:'时尚背包',price:99}
+    {name:'纯棉T恤',price:59},{name:'休闲长裤',price:89},{name:'运动鞋',price:169},{name:'时尚背包',price:99}
 ]
 let cart = JSON.parse(localStorage.getItem('cart')) || []
 let orders = JSON.parse(localStorage.getItem('orders')) || []
+let chatMsg = JSON.parse(localStorage.getItem('chatMsg')) || []
 
 function render(){
     let g = document.getElementById('goodsList')
@@ -121,7 +119,7 @@ function render(){
     })
     showCart()
     showOrder()
-    adminShow()
+    renderChat()
 }
 
 function addCart(i){
@@ -156,6 +154,7 @@ function showCart(){
 
 function cut(i){ cart[i].num--; if(cart[i].num<1) cart.splice(i,1); save(); }
 function add(i){ cart[i].num++; save(); }
+
 function pay(){
     if(cart.length==0) return alert('购物车为空')
     orders.push({items:cart,total:document.getElementById('total').innerText,time:new Date().toLocaleString()})
@@ -168,46 +167,54 @@ function showOrder(){
     let o = document.getElementById('orderItems')
     o.innerHTML=''
     orders.forEach(it=>{
-        o.innerHTML+=`<div class="order-item">${it.time}<br>金额：¥${it.total}</div>`
+        o.innerHTML+=`<div style="padding:10px;border-bottom:1px solid #f2f2f2">${it.time}<br>金额：¥${it.total}</div>`
     })
 }
 
-function addGood(){
-    let name = document.getElementById('gname').value
-    let price = document.getElementById('gprice').value
-    if(!name||!price) return alert('请填写完整')
-    goods.push({name,price:Number(price)})
+function toggleChat(){
+    let box = document.getElementById('chatBox')
+    box.style.display = box.style.display === 'flex' ? 'none' : 'flex'
+}
+
+function userSend(){
+    let input = document.getElementById('userMsg')
+    let text = input.value.trim()
+    if(!text) return
+    chatMsg.push({type:'user',text:text})
+    input.value = ''
     save()
-    alert('商品添加成功')
-    document.getElementById('gname').value=''
-    document.getElementById('gprice').value=''
+    renderChat()
 }
 
-function adminShow(){
-    let ag = document.getElementById('adminGoods')
-    let ao = document.getElementById('adminOrders')
-    ag.innerHTML=''
-    goods.forEach((it,i)=>{
-        ag.innerHTML+=`<div class="admin-item">${it.name} - ¥${it.price} <button onclick="delGood(${i})" style="background:red;color:white;border:none;padding:4px">删除</button></div>`
+function renderChat(){
+    let content = document.getElementById('chatContent')
+    content.innerHTML = ''
+    chatMsg.forEach(msg=>{
+        if(msg.type === 'user') content.innerHTML += `<div class="msg-user"><span class="msg-content">${msg.text}</span></div>`
+        else content.innerHTML += `<div class="msg-admin"><span class="msg-content">${msg.text}</span></div>`
     })
-    ao.innerHTML=''
-    orders.forEach(it=>{
-        ao.innerHTML+=`<div class="admin-item">${it.time} → 订单金额：¥${it.total}</div>`
-    })
+    content.scrollTop = content.scrollHeight
 }
 
-function delGood(i){ goods.splice(i,1); save(); }
 function save(){
     localStorage.setItem('goods',JSON.stringify(goods))
     localStorage.setItem('cart',JSON.stringify(cart))
     localStorage.setItem('orders',JSON.stringify(orders))
+    localStorage.setItem('chatMsg',JSON.stringify(chatMsg))
     render()
 }
+
 function goto(id){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'))
     document.getElementById(id).classList.add('show')
     document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'))
-    document.querySelectorAll('.tabs button')[['shop','cart','order','admin'].indexOf(id)].classList.add('active')
+    document.querySelectorAll('.tabs button')[['shop','cart','order'].indexOf(id)].classList.add('active')
+}
+
+render()
+</script>
+</body>
+</html>
 }
 render()
 </script>
