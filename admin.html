@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>后台管理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,sans-serif}
+body{background:#f4f6f8}
+.login{max-width:400px;margin:50px auto;padding:30px;background:#fff;border-radius:12px}
+.login input{width:100%;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:6px}
+.login button{background:#ff3052;color:#fff;border:none;width:100%;padding:12px;border-radius:6px}
+.admin{display:none;padding:20px}
+.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:15px}
+.card input{width:100%;padding:10px;margin:6px 0}
+.card button{background:#ff3052;color:#fff;border:none;padding:10px;width:100%;margin-top:10px}
+.item{padding:8px;border-bottom:1px solid #f2f2f2}
+</style>
+</head>
+<body>
+
+<div class="login" id="loginBox">
+    <h2>管理员登录</h2>
+    <input id="user" placeholder="账号">
+    <input id="pwd" type="password" placeholder="密码">
+    <button onclick="login()">登录</button>
+</div>
+
+<div class="admin" id="adminBox">
+    <div class="card">
+        <h3>添加商品</h3>
+        <input id="gname" placeholder="商品名">
+        <input id="gprice" placeholder="价格">
+        <button onclick="addGood()">添加</button>
+    </div>
+    <div class="card">
+        <h3>商品管理</h3>
+        <div id="glist"></div>
+    </div>
+    <div class="card">
+        <h3>订单管理</h3>
+        <div id="olist"></div>
+    </div>
+    <div class="card">
+        <h3>客服回复</h3>
+        <div id="chatList"></div>
+        <input id="reply" placeholder="输入回复">
+        <button onclick="sendReply()">发送</button>
+    </div>
+</div>
+
+<script>
+function login(){
+    let u = document.getElementById('user').value
+    let p = document.getElementById('pwd').value
+    if(u==='admin'&&p==='123456'){
+        document.getElementById('loginBox').style.display='none'
+        document.getElementById('adminBox').style.display='block'
+        render()
+    }else{
+        alert('账号或密码错误')
+    }
+}
+
+let goods = JSON.parse(localStorage.getItem('goods')) || []
+let orders = JSON.parse(localStorage.getItem('orders')) || []
+let chatMsg = JSON.parse(localStorage.getItem('chatMsg')) || []
+
+function render(){
+    let g = document.getElementById('glist')
+    let o = document.getElementById('olist')
+    let c = document.getElementById('chatList')
+    g.innerHTML='',o.innerHTML='',c.innerHTML=''
+    
+    goods.forEach((it,i)=>{
+        g.innerHTML+=`<div class="item">${it.name} ￥${it.price} <button onclick="del(${i})">删除</button></div>`
+    })
+    orders.forEach(it=>{
+        o.innerHTML+=`<div class="item">${it.time} ￥${it.total}</div>`
+    })
+    chatMsg.forEach(it=>{
+        c.innerHTML+=`<div class="item">${it.type==='user'?'用户':'客服'}：${it.text}</div>`
+    })
+}
+
+function addGood(){
+    let n = document.getElementById('gname').value
+    let p = document.getElementById('gprice').value
+    if(!n||!p)return
+    goods.push({name:n,price:Number(p)})
+    save()
+    alert('成功')
+}
+
+function del(i){goods.splice(i,1);save()}
+function sendReply(){
+    let t = document.getElementById('reply').value
+    if(!t)return
+    chatMsg.push({type:'admin',text:t})
+    save()
+}
+
+function save(){
+    localStorage.setItem('goods',JSON.stringify(goods))
+    localStorage.setItem('orders',JSON.stringify(orders))
+    localStorage.setItem('chatMsg',JSON.stringify(chatMsg))
+    render()
+}
+</script>
+</body>
+</html>
