@@ -3,220 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Subo889 商城</title>
+<title>苏泊丶 | Subo889</title>
+<meta name="description" content="苏泊丶（subo889）个人主页：自动化脚本 / Telegram Bot / 虚拟货币 / 项目开发者 / 社区运管。">
+<meta name="theme-color" content="#f5f6f8">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,sans-serif}
-body{background:#f4f6f8}
-.header{background:#ff3052;color:#fff;padding:14px 20px;text-align:center}
-.banner{height:110px;background:linear-gradient(90deg,#ff4a6a,#ff6b4a);color:#fff;display:flex;align-items:center;justify-content:center}
-.tabs{display:flex;background:#fff}
-.tabs button{flex:1;padding:12px;border:none;background:none}
-.tabs .active{color:#ff3052;font-weight:bold}
-.page{display:none}
-.show{display:block}
-.goods{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:10px}
-.good{background:#fff;border-radius:12px;overflow:hidden}
-.good-img{height:140px;background:#eee}
-.good-info{padding:10px}
-.good-name{font-size:14px}
-.good-price{color:#ff3052;font-weight:bold}
-.good-btn{background:#ff3052;color:#fff;border:none;width:100%;padding:7px;border-radius:6px;margin-top:8px}
-.cart{padding:15px;background:#fff;margin:10px;border-radius:12px}
-.cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f2f2f2}
-.quantity{display:flex;align-items:center;gap:6px}
-.quantity button{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px}
-.total{text-align:right;padding:10px;color:#ff3052}
-.pay{background:#ff3052;color:#fff;border:none;width:100%;padding:12px;border-radius:8px;margin-top:10px}
-.order{padding:15px;background:#fff;margin:10px;border-radius:12px}
+  :root{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --text:#1c2330;
+    --muted:#6b7280;
+    --line:#eceff3;
+    --tag-bg:#f1f4f8;
+    --tag-text:#3d4a5c;
+    --accent:#2aabee;
+    --accent-dark:#1f93d1;
+    --shadow:0 10px 34px rgba(20,32,50,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Microsoft YaHei","PingFang SC","Segoe UI",system-ui,-apple-system,sans-serif;
+    min-height:100vh;
+    line-height:1.6;
+    padding:48px 16px 32px;
+  }
+  .container{max-width:640px;margin:0 auto}
 
-/* 客服悬浮 */
-.service-float{position:fixed;right:15px;bottom:15px;z-index:999}
-.service-btn{width:50px;height:50px;border-radius:50%;background:#ff3052;color:#fff;border:none}
-.chat-box{width:320px;height:400px;background:#fff;position:fixed;right:15px;bottom:75px;display:none;flex-direction:column}
-.chat-head{background:#ff3052;color:#fff;padding:10px}
-.chat-content{flex:1;padding:10px;overflow-y:auto;background:#f9f9f9}
-.msg-user{text-align:right;margin:8px 0}
-.msg-admin{text-align:left;margin:8px 0}
-.msg-content{display:inline-block;padding:6px 10px;border-radius:6px;max-width:70%}
-.msg-user .msg-content{background:#ff3052;color:#fff}
-.msg-admin .msg-content{background:#e5e5e5}
-.chat-input{display:flex;padding:8px}
-.chat-input input{flex:1;padding:8px}
-.chat-input button{margin-left:6px;background:#ff3052;color:#fff;border:none;padding:8px 12px}
+  .card{
+    background:var(--card);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:36px 28px;
+  }
+  .card + .card{margin-top:16px}
+
+  /* 主卡片 */
+  .hero{text-align:center}
+  .avatar{
+    width:96px;height:96px;border-radius:50%;
+    object-fit:cover;
+    border:3px solid #fff;
+    box-shadow:0 6px 20px rgba(20,32,50,.14);
+  }
+  .name{
+    margin-top:18px;
+    font-size:28px;font-weight:700;letter-spacing:1px;
+  }
+  .role{
+    margin-top:8px;
+    font-size:15px;color:var(--accent);font-weight:600;
+  }
+  .focus{
+    margin-top:10px;
+    font-size:14px;color:var(--muted);
+  }
+
+  /* 标签 */
+  .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+  .tag{
+    background:var(--tag-bg);color:var(--tag-text);
+    font-size:13px;
+    padding:6px 13px;border-radius:999px;
+  }
+
+  /* 联系按钮 */
+  .links{
+    display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+    margin-top:26px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    text-decoration:none;font-size:14px;font-weight:600;
+    padding:10px 20px;border-radius:12px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(42,171,238,.32)}
+  .btn-primary:hover{background:var(--accent-dark)}
+  .btn-ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .btn svg{width:16px;height:16px;fill:currentColor}
+
+  /* 区块标题 */
+  .section-title{
+    font-size:16px;font-weight:700;
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:16px;
+  }
+  .section-title .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+  /* 项目占位 */
+  .project-empty{
+    border:1px dashed var(--line);
+    border-radius:14px;
+    padding:26px 18px;
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:28px;
+  }
+  footer a{color:var(--muted);text-decoration:none}
+  footer a:hover{color:var(--accent)}
+
+  /* 入场动画 */
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(14px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .card{animation:fadeUp .5s ease both}
+  .card:nth-child(2){animation-delay:.08s}
+  .card:nth-child(3){animation-delay:.16s}
+
+  @media (max-width:480px){
+    body{padding:28px 12px 24px}
+    .card{padding:28px 20px}
+    .name{font-size:24px}
+  }
 </style>
 </head>
 <body>
+  <main class="container">
 
-<div class="header">Subo889 商城</div>
-<div class="banner">欢迎光临</div>
+    <!-- 主卡片：头像 / 昵称 / 简介 / 技能标签 / 联系 -->
+    <section class="card hero">
+      <img class="avatar" src="https://avatars.githubusercontent.com/u/145550757?v=4" alt="苏泊丶 头像">
+      <h1 class="name">苏泊丶</h1>
+      <p class="role">项目开发者 · 社区运管</p>
+      <p class="focus">自动化脚本 / Telegram Bot / 虚拟货币</p>
 
-<div class="tabs">
-    <button onclick="goto('shop')" class="active">商城</button>
-    <button onclick="goto('cart')">购物车</button>
-    <button onclick="goto('order')">订单</button>
-</div>
+      <div class="tags" aria-label="技能标签">
+        <span class="tag">Python</span>
+        <span class="tag">Telegram Bot</span>
+        <span class="tag">自动化</span>
+        <span class="tag">RSS</span>
+        <span class="tag">Windows 运维</span>
+        <span class="tag">脚本工具</span>
+      </div>
 
-<!-- 商城 -->
-<div id="shop" class="page show">
-    <div style="padding:10px;background:#fff;margin:10px;border-radius:12px">
-        <h3 style="padding:10px">全部商品</h3>
-        <div class="goods" id="goodsList"></div>
-    </div>
-</div>
+      <div class="links">
+        <a class="btn btn-primary" href="https://t.me/subo88" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.858 8.16c.136.972.27 2.21.402 3.698.023.267.046.535.067.804.073.98-.475 1.546-1.33 1.556-.69.008-1.36-.26-2.06-.54-.99-.4-1.965-.81-2.91-1.25-.313-.147-.345-.27-.09-.526.18-.18.36-.36.54-.54.65-.64 1.3-1.28 1.94-1.93.26-.26.4-.44.29-.59-.1-.13-.3-.08-.54-.03-.24.05-1.94.93-4.86 2.58-.55.3-1.04.46-1.47.45-.54-.01-1.59-.31-2.38-.63-1.14-.45-2.02-.69-1.95-1.37.04-.38.56-.77 1.55-1.17 3.84-1.54 6.37-2.54 7.57-3.09 3.6-1.68 4.34-1.97 4.83-1.96.11.002.34.026.5.16.13.11.17.26.18.41.02.1.02.21.02.32z"/></svg>
+          Telegram
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/subo889" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .3.2.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </section>
 
-<!-- 购物车 -->
-<div id="cart" class="page">
-    <div class="cart">
-        <h3>购物车</h3>
-        <div id="cartItems"></div>
-        <div class="total">合计：¥<span id="total">0</span></div>
-        <button class="pay" onclick="pay()">提交订单</button>
-    </div>
-</div>
+    <!-- 项目与作品 -->
+    <section class="card">
+      <h2 class="section-title"><span class="dot"></span>项目与作品</h2>
+      <div class="project-empty">更多项目正在整理中，敬请期待。</div>
+    </section>
 
-<!-- 订单 -->
-<div id="order" class="page">
-    <div class="order">
-        <h3>我的订单</h3>
-        <div id="orderItems"></div>
-    </div>
-</div>
-
-<!-- 客服 -->
-<div class="service-float">
-    <button class="service-btn" onclick="toggleChat()">客服</button>
-</div>
-<div class="chat-box" id="chatBox">
-    <div class="chat-head">客服中心 <span onclick="toggleChat()" style="float:right">×</span></div>
-    <div class="chat-content" id="chatContent"></div>
-    <div class="chat-input">
-        <input id="userMsg" placeholder="输入消息">
-        <button onclick="userSend()">发送</button>
-    </div>
-</div>
-
-<script>
-let goods = JSON.parse(localStorage.getItem('goods')) || [
-    {name:'纯棉T恤',price:59},{name:'休闲长裤',price:89},{name:'运动鞋',price:169},{name:'时尚背包',price:99}
-]
-let cart = JSON.parse(localStorage.getItem('cart')) || []
-let orders = JSON.parse(localStorage.getItem('orders')) || []
-let chatMsg = JSON.parse(localStorage.getItem('chatMsg')) || []
-
-function render(){
-    let g = document.getElementById('goodsList')
-    g.innerHTML = ''
-    goods.forEach((it,i)=>{
-        g.innerHTML+=`
-        <div class="good">
-            <div class="good-img"></div>
-            <div class="good-info">
-                <div class="good-name">${it.name}</div>
-                <div class="good-price">¥${it.price}</div>
-                <button class="good-btn" onclick="addCart(${i})">加入购物车</button>
-            </div>
-        </div>`
-    })
-    showCart()
-    showOrder()
-    renderChat()
-}
-
-function addCart(i){
-    let item = goods[i]
-    let idx = cart.findIndex(x=>x.name==item.name)
-    if(idx>=0) cart[idx].num++
-    else cart.push({name:item.name,price:item.price,num:1})
-    save()
-    alert('已加入购物车')
-}
-
-function showCart(){
-    let c = document.getElementById('cartItems')
-    let t = document.getElementById('total')
-    c.innerHTML = ''
-    let sum=0
-    cart.forEach((it,i)=>{
-        sum+=it.price*it.num
-        c.innerHTML+=`
-        <div class="cart-item">
-            <div>${it.name}</div>
-            <div class="quantity">
-                <button onclick="cut(${i})">-</button>
-                <span>${it.num}</span>
-                <button onclick="add(${i})">+</button>
-            </div>
-            <div>¥${it.price*it.num}</div>
-        </div>`
-    })
-    t.innerText=sum
-}
-
-function cut(i){ cart[i].num--; if(cart[i].num<1) cart.splice(i,1); save(); }
-function add(i){ cart[i].num++; save(); }
-
-function pay(){
-    if(cart.length==0) return alert('购物车为空')
-    orders.push({items:cart,total:document.getElementById('total').innerText,time:new Date().toLocaleString()})
-    cart=[]
-    save()
-    alert('订单提交成功')
-}
-
-function showOrder(){
-    let o = document.getElementById('orderItems')
-    o.innerHTML=''
-    orders.forEach(it=>{
-        o.innerHTML+=`<div style="padding:10px;border-bottom:1px solid #f2f2f2">${it.time}<br>金额：¥${it.total}</div>`
-    })
-}
-
-function toggleChat(){
-    let box = document.getElementById('chatBox')
-    box.style.display = box.style.display === 'flex' ? 'none' : 'flex'
-}
-
-function userSend(){
-    let input = document.getElementById('userMsg')
-    let text = input.value.trim()
-    if(!text) return
-    chatMsg.push({type:'user',text:text})
-    input.value = ''
-    save()
-    renderChat()
-}
-
-function renderChat(){
-    let content = document.getElementById('chatContent')
-    content.innerHTML = ''
-    chatMsg.forEach(msg=>{
-        if(msg.type === 'user') content.innerHTML += `<div class="msg-user"><span class="msg-content">${msg.text}</span></div>`
-        else content.innerHTML += `<div class="msg-admin"><span class="msg-content">${msg.text}</span></div>`
-    })
-    content.scrollTop = content.scrollHeight
-}
-
-function save(){
-    localStorage.setItem('goods',JSON.stringify(goods))
-    localStorage.setItem('cart',JSON.stringify(cart))
-    localStorage.setItem('orders',JSON.stringify(orders))
-    localStorage.setItem('chatMsg',JSON.stringify(chatMsg))
-    render()
-}
-
-function goto(id){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'))
-    document.getElementById(id).classList.add('show')
-    document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'))
-    document.querySelectorAll('.tabs button')[['shop','cart','order'].indexOf(id)].classList.add('active')
-}
-
-render()
-</script>
-</body>
-</html>
-}
-render()
-</script>
+    <footer>
+      © 2026 苏泊丶 · Hosted on <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a>
+    </footer>
+  </main>
 </body>
 </html>
